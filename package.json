@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Meozy/backend.git",
+  "author": "caio-couto <cavalcantecaio.couto@gmail.com>",
+  "license": "MIT",
+  "type": "commonjs",
+  "scripts": 
+  {
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts"
+  },
+  "dependencies": {},
+  "devDependencies": 
+  {
+    "@types/node": "^20.11.16",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.3.3"
+  }
+}
