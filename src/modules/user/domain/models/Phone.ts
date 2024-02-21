@@ -11,15 +11,12 @@ class Phone
 
   static create(phone: string): Result<Phone> 
   {
-    if (!this.validade(phone))
-    {
-      return Result.Err("Telefone inválido");
-    }
-
+    if (!this.validade(phone)) return Result.Err("Telefone inválido");
+    
     return Result.Ok(new Phone(phone));
   }
 
-  private static validade(phone: string): boolean 
+  static validade(phone: string): boolean 
   {
     phone = phone.replace(/\D/g, "");
 
@@ -42,6 +39,11 @@ class Phone
     if (phone.length == 10 && [2, 3, 4, 5, 7].indexOf(parseInt(phone.substring(2, 3))) == -1) return false;
 
     return true;
+  }
+
+  public toString(): string 
+  {
+    return this.phone;
   }
 
   getValue(): string 
