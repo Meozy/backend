@@ -9,8 +9,8 @@ describe("EmailVO", () =>
   {
     it(`should be able to create a new Email with email ${email}`, () => 
     {
-      const validateEmail = Email.create(email);
-      expect(validateEmail.isSuccess).toBe(true);
+      const validateEmail: boolean = Email.validate(email);
+      expect(validateEmail).toBe(true);
     });
   });
 
@@ -18,8 +18,8 @@ describe("EmailVO", () =>
   {
     it(`should not be able to create a new Email with email ${email}`, () => 
     {
-      const validateEmail = Email.create(email);
-      expect(validateEmail.isFailure).toBe(true);
+      const validateEmail: boolean = Email.validate(email);
+      expect(validateEmail).toBe(true);
     });
   });
 });

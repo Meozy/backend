@@ -9,8 +9,8 @@ describe("PhoneVO", () =>
   {
     it(`should be able to create a new Phone with number ${phone}`, () => 
     {
-      const validatePhone = Phone.create(phone);
-      expect(validatePhone.isSuccess).toBe(true);
+      const validatePhone: boolean = Phone.validade(phone);
+      expect(validatePhone).toBe(true);
     });
   });
 
@@ -18,8 +18,8 @@ describe("PhoneVO", () =>
   {
     it(`should not be able to create a new Phone with number ${phone}`, () => 
     {
-      const validatePhone = Phone.create(phone);
-      expect(validatePhone.isFailure).toBe(true);
+      const validatePhone: boolean = Phone.validade(phone);
+      expect(validatePhone).toBe(false);
     });
   });
 });
