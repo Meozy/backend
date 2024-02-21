@@ -10,7 +10,10 @@
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
     "test": "jest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "reflect-metadata": "^0.2.1",
+    "tsyringe": "^4.8.0"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.16",
