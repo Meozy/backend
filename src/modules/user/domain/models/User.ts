@@ -1,3 +1,4 @@
+import AppError from "@shared/erros/AppError";
 import Email from "./Email";
 import Phone from "./Phone";
 import Result from "@shared/erros/Result";
@@ -10,7 +11,7 @@ class User
   password: string;
   phone: Phone;
   avatar?: string;
-  created_at: Date; 
+  created_at: Date;
   updated_at: Date;
 
   private constructor(id: string, name: string, email: Email, password: string, phone: Phone)
@@ -27,27 +28,27 @@ class User
   /**
    * Cria um novo usuário
   */
-  static create(id: string, name: string, email: string, password: string, phone: string): Result<User>
+  static create(id: string, name: string, email: string, password: string, phone: string): Result<User, AppError>
   {
-    const isValidEmail: Result<Email> =  Email.create(email);
-    const isValidPhone: Result<Phone> = Phone.create(phone);
+    const isValidEmail: Result<Email, AppError> =  Email.create(email);
+    const isValidPhone: Result<Phone, AppError> = Phone.create(phone);
 
-    if (isValidEmail.isFailure) return Result.Err(isValidEmail.error);
+    if (isValidEmail.isFailure) return Result.Err<User, AppError>(isValidEmail.error);
 
-    if (isValidPhone.isFailure) return Result.Err(isValidPhone.error);
+    if (isValidPhone.isFailure) return Result.Err<User, AppError>(isValidPhone.error);
 
     const user: User = new User(id, name, isValidEmail.getValue(), password, isValidPhone.getValue());
 
     return Result.Ok(user);
   }
 
-  public toString(): string 
+  public toString(): string
   {
     return `User {
       id: ${this.id},
       name: ${this.name},
       email: ${this.email.getValue()},
-      password: ${this.password},
+      pssword: ${this.password},
       phone: ${this.phone.getValue()},
       created_at: ${this.created_at.toString()},
       updated_at: ${this.updated_at.toString()}

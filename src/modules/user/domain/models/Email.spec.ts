@@ -19,7 +19,7 @@ describe("EmailVO", () =>
     it(`should not be able to create a new Email with email ${email}`, () => 
     {
       const validateEmail: boolean = Email.validate(email);
-      expect(validateEmail).toBe(true);
+      expect(validateEmail).toBe(false);
     });
   });
 });

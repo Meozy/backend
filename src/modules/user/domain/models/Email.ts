@@ -1,4 +1,6 @@
+import AppError from "@shared/erros/AppError";
 import Result from "@shared/erros/Result";
+
 
 class Email
 {
@@ -10,9 +12,13 @@ class Email
     Object.freeze(this);
   }
 
-  static create (email: string): Result<Email>
+  static create (email: string): Result<Email, AppError>
   {
-    if (!this.validate(email)) return Result.Err("Invalid Email");
+    if (!this.validate(email)) return Result.Err(new AppError(
+    { 
+      errorType: "INVALID_EMAIL", 
+      details:"Forneça um formato de email válido. Ex: user@domain.com" 
+    }));
 
     return Result.Ok(new Email(email));
   }

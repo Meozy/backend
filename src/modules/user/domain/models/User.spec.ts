@@ -1,5 +1,6 @@
 import Result from "@shared/erros/Result";
 import User from "./User"
+import AppError from "@shared/erros/AppError";
 
 describe("User Entity", () =>
 {
@@ -14,7 +15,7 @@ describe("User Entity", () =>
       phone: "75981560050",
     };
 
-    const user: Result<User> = User.create(userData.id, userData.name, userData.email, userData.password, userData.phone);
+    const user: Result<User, AppError> = User.create(userData.id, userData.name, userData.email, userData.password, userData.phone);
 
     expect(user.isSuccess).toBe(true);
   });
@@ -30,7 +31,7 @@ describe("User Entity", () =>
       phone: "75981560050",
     };
 
-    const user: Result<User> = User.create(userData.id, userData.name, userData.email, userData.password, userData.phone);
+    const user: Result<User, AppError> = User.create(userData.id, userData.name, userData.email, userData.password, userData.phone);
 
     expect(user.isFailure).toBe(true);
   });
@@ -46,7 +47,7 @@ describe("User Entity", () =>
       phone: "7581560050",
     };
 
-    const user: Result<User> = User.create(userData.id, userData.name, userData.email, userData.password, userData.phone);
+    const user: Result<User, AppError> = User.create(userData.id, userData.name, userData.email, userData.password, userData.phone);
 
     expect(user.isFailure).toBe(true);
   });

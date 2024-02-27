@@ -1,3 +1,4 @@
+import AppError from "@shared/erros/AppError";
 import Result from "@shared/erros/Result";
 
 class Phone
@@ -9,9 +10,13 @@ class Phone
     this.phone = phone; 
   }
 
-  static create(phone: string): Result<Phone> 
+  static create(phone: string): Result<Phone, AppError> 
   {
-    if (!this.validade(phone)) return Result.Err("Telefone inválido");
+    if (!this.validade(phone)) return Result.Err(new AppError(
+    {
+      errorType: "INVALID_PHONE",
+      details: "Forneça um número de telefone válido. Ex: (75)98888-8888"
+    }));
     
     return Result.Ok(new Phone(phone));
   }
