@@ -1,33 +1,38 @@
 import IUserRepository from "../domain/repositories/IUserRepository";
 import User from "../domain/models/User";
+import ICreateUser from "../domain/models/ICreateUser";
 import Result from "@shared/erros/Result";
-
-interface IRequest
-{
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-}
+import AppError from "@shared/erros/AppError";
+import IHashProvider from "../providers/HasProvider/models/IHashProvider";
 
 class CreateUserService
 {
   private userRepository: IUserRepository;
+  private hashProvider: IHashProvider;
 
-  constructor(userRepository: IUserRepository)
+  constructor(userRepository: IUserRepository, hashProvider: IHashProvider)
   {
     this.userRepository = userRepository;
+    this.hashProvider = hashProvider;
   }
 
-  public async execute({ name, email, password, phone}: IRequest): Promise<Result<User>>
+  public async execute({ name, email, password, phone}: ICreateUser): Promise<Result<User, AppError>>
   {
-    const existEmail: Result<User | null> = await this.userRepository.findByEmail(email);
+    const existEmail: Result<User | null, AppError> = await this.userRepository.findByEmail(email);
 
     if (existEmail.isFailure) return Result.Err(existEmail.error);
 
-    if (!existEmail) return Result.Err("Email addres already used.");
+    if (existEmail.getValue()) return Result.Err(new AppError(
+    {
+      errorType: "EMAIL_ALREADY_EXISTS",
+      details: "O endereço de email fornecido já está sendo usado por outro usuário. Tente outro email."
+    }));
 
-    const user: Result<User> = await this.userRepository.create({ name, email, password, phone });
+    const hashedPassword: Result<string, AppError> = await this.hashProvider.generateHash(password);
+
+    if (hashedPassword.isFailure) return Result.Err(hashedPassword.error);
+
+    const user: Result<User, AppError> = await this.userRepository.create({ name, email, password, phone });
 
     if (user.isFailure) return Result.Err(user.error);
 
